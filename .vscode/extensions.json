@@ -1,0 +1,10 @@
+{
+  "recommendations": [
+    "bradlc.vscode-tailwindcss",
+    "esbenp.prettier-vscode",
+    "yoavbls.pretty-ts-errors",
+    "mattpocock.ts-error-translator",
+    "dbaeumer.vscode-eslint",
+    "chrisbibby.hide-node-modules"
+  ]
+}
