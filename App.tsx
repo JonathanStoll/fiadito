@@ -4,6 +4,10 @@ import TabNavigation from "./navigation/TabNavigation";
 import { useEffect } from "react";
 import { getLocalStorageTheme } from "./const/utils/localStorage";
 import { useThemeStore } from "./states/useThemeStore";
+import {
+  QueryClient,
+  QueryClientProvider,
+} from '@tanstack/react-query'
 
 export default function App() {
   const { setTheme } = useThemeStore();
@@ -13,9 +17,11 @@ export default function App() {
   }, []);
 
   return (
+    <QueryClientProvider client={new QueryClient()}>
     <NavigationContainer>
       <TabNavigation />
     </NavigationContainer>
+    </QueryClientProvider>
   );
 }
 
