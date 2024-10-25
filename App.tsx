@@ -1,6 +1,6 @@
 import { StyleSheet } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
-import TabNavigation from "./navigation/TabNavigation";
+
 import { useEffect } from "react";
 import { getLocalStorageTheme } from "./const/utils/localStorage";
 import { useThemeStore } from "./states/useThemeStore";
@@ -8,6 +8,7 @@ import {
   QueryClient,
   QueryClientProvider,
 } from '@tanstack/react-query'
+import StackNavigation from "./navigation/StackNavigation";
 
 export default function App() {
   const { setTheme } = useThemeStore();
@@ -19,7 +20,7 @@ export default function App() {
   return (
     <QueryClientProvider client={new QueryClient()}>
     <NavigationContainer>
-      <TabNavigation />
+      <StackNavigation />
     </NavigationContainer>
     </QueryClientProvider>
   );
