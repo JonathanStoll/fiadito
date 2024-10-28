@@ -1,11 +1,9 @@
-// Formik x React Native example
-import React from "react";
 import {
   Pressable,
-  StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
+  StyleSheet,
   View,
 } from "react-native";
 import { Formik } from "formik";
@@ -15,11 +13,11 @@ import { useNavigation } from "@react-navigation/native";
 interface initialValues {
   email: string;
   password: string;
+  confirmPassword: string;
 }
 
-export const LoginForm = () => {
+export const CreateAccountForm = () => {
   const { currentColors } = useThemeStore();
-
   const navigation = useNavigation();
 
   const handleValidation = (values: initialValues) => {
@@ -39,19 +37,27 @@ export const LoginForm = () => {
       errors.password = "La contraseña debe tener al menos 6 caracteres";
     }
 
+    if (values.confirmPassword !== values.password) {
+      errors.confirmPassword = "Las constraseñas deben coincidir";
+    }
+
     return errors;
   };
 
   return (
     <Formik
-      initialValues={{ email: "", password: "" }}
+      initialValues={{
+        email: "",
+        password: "",
+        confirmPassword: "",
+      }}
+      validate={handleValidation}
       onSubmit={(values) =>
         navigation.reset({
           index: 0,
           routes: [{ name: "HomeScreen" as never }],
         })
       }
-      // validate={handleValidation}
     >
       {({
         handleChange,
@@ -76,7 +82,7 @@ export const LoginForm = () => {
               marginBottom: 10,
             }}
           >
-            Ingresar
+            Crear cuenta
           </Text>
 
           <Text style={styles.label}>Email</Text>
@@ -104,6 +110,20 @@ export const LoginForm = () => {
           {errors.password && touched.password && (
             <Text style={{ color: "red" }}>{errors.password}</Text>
           )}
+
+          <Text style={styles.label}>Confirmar Password</Text>
+          <TextInput
+            onChangeText={handleChange("confirmPassword")}
+            onBlur={handleBlur("confirmPassword")}
+            value={values.confirmPassword}
+            style={styles.input}
+            placeholder="**********"
+            secureTextEntry={true}
+          />
+          {errors.confirmPassword && touched.confirmPassword && (
+            <Text style={{ color: "red" }}>{errors.confirmPassword}</Text>
+          )}
+
           <TouchableOpacity
             onPress={(e: any) => handleSubmit(e)}
             style={{
@@ -120,13 +140,11 @@ export const LoginForm = () => {
                 textAlign: "center",
               }}
             >
-              Ingresar
+              Crear cuenta
             </Text>
           </TouchableOpacity>
 
-          <Pressable
-            onPress={() => navigation.navigate("CreateAccount" as never)}
-          >
+          <Pressable onPress={() => navigation.navigate("Login" as never)}>
             <View
               style={{
                 alignSelf: "flex-end",
@@ -135,8 +153,8 @@ export const LoginForm = () => {
                 flexDirection: "row",
               }}
             >
-              <Text>No Tienes una cuenta? </Text>
-              <Text style={{ color: currentColors.primary }}>Crea una</Text>
+              <Text>Ya tienes una cuenta? </Text>
+              <Text style={{ color: currentColors.primary }}>ingresa.</Text>
             </View>
           </Pressable>
         </View>
