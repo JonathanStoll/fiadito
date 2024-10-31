@@ -1,4 +1,4 @@
-import { View, Text, Pressable } from "react-native";
+import { View, Text, Pressable, Alert } from "react-native";
 import { useThemeStore } from "../../states/useThemeStore";
 import { CustomModal } from "../../components/CustomModal";
 import { useState } from "react";
@@ -9,7 +9,7 @@ export const Home = () => {
   const [modalVisible, setModalVisible] = useState(false);
 
   const toggleModal = () => {
-    setModalVisible(!modalVisible);
+    setModalVisible((prev) => !prev);
   };
 
   return (
@@ -36,7 +36,16 @@ export const Home = () => {
         <Text>Open modal</Text>
       </Pressable>
 
-      <CustomModal visible={modalVisible} onClose={toggleModal} title="Hello">
+      <CustomModal
+        visible={modalVisible}
+        onClose={toggleModal}
+        title="Custom modal"
+        buttonText1Function={() =>
+          Alert.alert("Test", "Test button function 1")
+        }
+        buttonText1="Alerta"
+        buttonText2="Cancel"
+      >
         <Text>Hello</Text>
       </CustomModal>
     </View>

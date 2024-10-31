@@ -1,18 +1,27 @@
 import { Modal, View, Text, Pressable } from "react-native";
 import { useThemeStore } from "../states/useThemeStore";
+import { Ionicons } from "@expo/vector-icons";
 
 interface CustomModalProps {
   visible: boolean;
   onClose: () => void;
   title: string;
   children: React.ReactNode;
+
+  buttonText1Function?: () => void;
+  buttonText1?: string;
+  showButtonText2?: boolean;
+  buttonText2?: string;
 }
 
 export const CustomModal = ({
   visible,
   onClose,
   title,
+  buttonText1Function,
   children,
+  buttonText1,
+  buttonText2,
 }: CustomModalProps) => {
   const { currentColors } = useThemeStore();
 
@@ -39,9 +48,22 @@ export const CustomModal = ({
             padding: 20,
             width: "90%",
             maxWidth: 500,
+            position: "relative",
           }}
           onTouchStart={(e) => e.stopPropagation()}
         >
+          <Pressable
+            style={{
+              position: "absolute",
+              top: 18,
+              right: 10,
+              zIndex: 10,
+              backgroundColor: currentColors.danger,
+            }}
+            onPress={onClose}
+          >
+            <Ionicons name="close" size={26} color={currentColors.text} />
+          </Pressable>
           <Text
             style={{
               fontSize: 18,
@@ -55,18 +77,42 @@ export const CustomModal = ({
 
           {children}
 
-          <Pressable
-            onPress={onClose}
-            style={{
-              backgroundColor: currentColors.primary,
-              padding: 10,
-              borderRadius: 5,
-              alignItems: "center",
-              marginTop: 20,
-            }}
-          >
-            <Text style={{ color: currentColors.buttonText }}>Close</Text>
-          </Pressable>
+          <View style={{ flexDirection: "row", gap: 10 }}>
+            {buttonText1 && (
+              <Pressable
+                onPress={() => buttonText1Function && buttonText1Function()}
+                style={{
+                  backgroundColor: currentColors.primary,
+                  padding: 10,
+                  borderRadius: 5,
+                  alignItems: "center",
+                  marginTop: 20,
+                  flex: 1,
+                }}
+              >
+                <Text style={{ color: currentColors.buttonText }}>
+                  {buttonText1}
+                </Text>
+              </Pressable>
+            )}
+            {buttonText2 && (
+              <Pressable
+                onPress={onClose}
+                style={{
+                  backgroundColor: currentColors.danger,
+                  padding: 10,
+                  borderRadius: 5,
+                  alignItems: "center",
+                  marginTop: 20,
+                  flex: 1,
+                }}
+              >
+                <Text style={{ color: currentColors.buttonText }}>
+                  {buttonText2}
+                </Text>
+              </Pressable>
+            )}
+          </View>
         </View>
       </View>
     </Modal>
