@@ -1,8 +1,16 @@
-import { View, Text, Pressable } from "react-native";
+import { View, Text, Pressable, Alert } from "react-native";
 import { useThemeStore } from "../../states/useThemeStore";
+import { CustomModal } from "../../components/CustomModal";
+import { useState } from "react";
 
 export const Home = () => {
   const { toggleTheme, currentColors } = useThemeStore();
+
+  const [modalVisible, setModalVisible] = useState(false);
+
+  const toggleModal = () => {
+    setModalVisible((prev) => !prev);
+  };
 
   return (
     <View
@@ -23,6 +31,23 @@ export const Home = () => {
       >
         <Text style={{ color: currentColors.buttonText }}>Toggle theme</Text>
       </Pressable>
+
+      <Pressable onPress={toggleModal}>
+        <Text>Open modal</Text>
+      </Pressable>
+
+      <CustomModal
+        visible={modalVisible}
+        onClose={toggleModal}
+        title="Custom modal"
+        buttonText1Function={() =>
+          Alert.alert("Test", "Test button function 1")
+        }
+        buttonText1="Alerta"
+        buttonText2="Cancel"
+      >
+        <Text>Hello</Text>
+      </CustomModal>
     </View>
   );
 };
